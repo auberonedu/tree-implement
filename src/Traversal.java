@@ -1,3 +1,7 @@
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Queue;
+import java.util.Set;
 import java.util.Stack;
 
 public class Traversal {
@@ -8,7 +12,7 @@ public class Traversal {
     root.right = new TreeNode<>(87, null, null);
     root.right.left = new TreeNode<>(9, null, null);
     root.left.right = new TreeNode<>(33, null, null);
-    root.left.right.left = new TreeNode<>(86, null, null);
+    root.left.left = new TreeNode<Integer>(4, null, null);
 
     TreeNode<String> stringRoot = new TreeNode<>("hello", null, null);
     stringRoot.left = new TreeNode<>("hi", null, null);
@@ -25,7 +29,8 @@ public class Traversal {
       current = current.left;
     }
 
-    preOrderIter(root);
+    // System.out.println(toSet(root));
+    printLevelOrder(root);
 
     // preOrder(root);
     //postOrder(root);
@@ -34,6 +39,35 @@ public class Traversal {
     // int result = countNodes(root);
     // System.out.println(result);
   }
+
+
+
+  public static Set<Integer> toSet(TreeNode<Integer> node) {
+    Set<Integer> result = new HashSet<>();
+    
+    // add everything to the set
+    toSet(node, result);
+
+    return result;
+  }
+
+  // add everything to the set
+  public static void toSet(TreeNode<Integer> node, Set<Integer> result) {
+    if(node == null) return;
+
+    result.add(node.value);
+    toSet(node.left, result);
+    toSet(node.right, result);
+  }
+
+
+
+
+
+
+
+
+
 
   public static <T> void preOrderIter(TreeNode<T> node) {
     Stack<TreeNode<T>> nodeStack = new Stack<>();
@@ -51,6 +85,24 @@ public class Traversal {
       nodeStack.push(current.left);
     }
   } 
+
+
+
+  
+  public static <T> void printLevelOrder(TreeNode<T> node) {
+    Queue<TreeNode<T>> queue = new LinkedList<>();
+
+    queue.add(node);
+
+    while(!queue.isEmpty()) {
+      TreeNode<T> current = queue.poll();
+      if(current == null) continue;
+
+      System.out.println(current.value);
+      queue.add(current.left);
+      queue.add(current.right);
+    }
+  }
 
 
 
